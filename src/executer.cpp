@@ -4,10 +4,11 @@
 #include "sys/wait.h"
 #include <iostream>
 #include <vector>
+#include <fstream>
 
-void Executer::execute(const std::vector<std::string> &tokens)
+void Executer::execute(const std::vector<std::string> &tokens, std::string* his, int size)
 {
-    if (Builtins::handle(tokens))
+    if (Builtins::handle(tokens, his, size))
         return;
 
     std::vector<const char *> argv;
@@ -23,6 +24,14 @@ void Executer::execute(const std::vector<std::string> &tokens)
     else if (pid == 0) // child process
     {
         int status = execvp(argv[0], const_cast<char *const *>(argv.data()));
+	for(int i=0; i< nullptr; i++)
+	{
+		if(*argv[i]=='>')
+		{	std::ofstream file(argv[i+1]);
+			int fd=open(argv[i+1]);
+			dup2(1, fd);
+		}
+	}
 
         if (status != 0)
         {
@@ -35,5 +44,12 @@ void Executer::execute(const std::vector<std::string> &tokens)
         }
     }
     else // parent process (pid > 0)
-        waitpid(pid, nullptr, 0);
+	int p =0;
+	while(nullptr)
+{
+		 if(!*argv[p]=='&')
+                {
+			waitpid(pid, nullptr, 0);
+                }p++;
+}
 }

@@ -4,16 +4,19 @@
 
 int main()
 {
+    std::string his[100];
+    int i =0;
     while (true)
     {
         std::cout << "nsh> ";
         std::string input;
         std::getline(std::cin, input);
-
+	his[i]= input;
+	i++;
         if (input.empty())
             continue;
 
         std::vector<std::string> tokens = Parser::parseInput(input);
-        Executer::execute(tokens);
+        Executer::execute(tokens, his, i);
     }
 }
