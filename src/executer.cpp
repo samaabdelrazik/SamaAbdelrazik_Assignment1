@@ -6,7 +6,7 @@
 #include <vector>
 #include <fstream>
 
-void Executer::execute(const std::vector<std::string> &tokens, std::string* his, int size)
+void Executer::execute(const std::vector<std::string> &tokens, std::string* his, int size, int x)
 {
     if (Builtins::handle(tokens, his, size))
         return;
@@ -24,14 +24,16 @@ void Executer::execute(const std::vector<std::string> &tokens, std::string* his,
     else if (pid == 0) // child process
     {
         int status = execvp(argv[0], const_cast<char *const *>(argv.data()));
-	for(int i=0; i< nullptr; i++)
+
+	for(int i=0; i< x; i++)
 	{
 		if(*argv[i]=='>')
-		{	std::ofstream file(argv[i+1]);
-			int fd=open(argv[i+1]);
-			dup2(1, fd);
+		{	std::cout << "found";
+			std::ofstream file(argv[i+1]);
+			//dup2(1, file);
 		}
 	}
+	
 
         if (status != 0)
         {
@@ -44,12 +46,10 @@ void Executer::execute(const std::vector<std::string> &tokens, std::string* his,
         }
     }
     else // parent process (pid > 0)
-	int p =0;
-	while(nullptr)
-{
-		 if(!*argv[p]=='&')
+	for(int i=0; i<x; i++){
+		 if(!*argv[i]=='&')
                 {
 			waitpid(pid, nullptr, 0);
-                }p++;
-}
+                }
+	}
 }

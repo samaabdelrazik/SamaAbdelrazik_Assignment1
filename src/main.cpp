@@ -9,6 +9,7 @@ int main()
     while (true)
     {
         std::cout << "nsh> ";
+	int x=0;
         std::string input;
         std::getline(std::cin, input);
 	his[i]= input;
@@ -16,7 +17,7 @@ int main()
         if (input.empty())
             continue;
 
-        std::vector<std::string> tokens = Parser::parseInput(input);
-        Executer::execute(tokens, his, i);
+        std::vector<std::string> tokens = Parser::parseInput(input, x);
+        Executer::execute(tokens, his, i,x);
     }
 }
